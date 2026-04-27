@@ -1,0 +1,36 @@
+#include <vector>
+#include <string>
+
+class Solution {
+public:
+    std::vector<std::string> letterCombinations(std::string digits) {
+        if (digits.empty()) return {};
+
+        std::vector<std::string> mapping = {
+            "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
+        };
+        
+        std::vector<std::string> result;
+        std::string currentPath = "";
+        backtrack(0, digits, mapping, currentPath, result);
+        return result;
+    }
+
+private:
+    void backtrack(int index, const std::string& digits, const std::vector<std::string>& mapping, 
+                   std::string& currentPath, std::vector<std::string>& result) {
+     
+        if (index == digits.length()) {
+            result.push_back(currentPath);
+            return;
+        }
+
+      
+        std::string letters = mapping[digits[index] - '0'];
+        for (char c : letters) {
+            currentPath.push_back(c);         
+            backtrack(index + 1, digits, mapping, currentPath, result); 
+            currentPath.pop_back();           
+        }
+    }
+};
